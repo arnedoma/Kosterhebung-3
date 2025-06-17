@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neubewohner Erhebungsbogen für die Küche - Haus Sonnenschein</title>
+    <style>
+        /* Allgemeine Stile */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 29.7cm; /* A4 width in landscape */
+            height: 21cm; /* A4 height in landscape */
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex; /* Use flexbox for main content arrangement */
+            flex-direction: column;
+            page-break-after: always; /* Ensure a page break if multiple copies are printed */
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.4em;
+            color: #3498db;
+            border-bottom: 1px solid #aed6f1;
+            padding-bottom: 5px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.1em;
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+
+        /* Layout der Sektionen */
+        .section-group {
+            display: flex;
+            flex-grow: 1; /* Allow sections to grow and take available space */
+            gap: 20px;
+        }
+
+        .section {
+            background: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            flex: 1; /* Each section takes equal width */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section.half-width {
+            flex: 0.5; /* For smaller sections like "Stammdaten" */
+        }
+
+        /* Input Felder */
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #555;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="date"],
+        .input-group textarea,
+        .input-group select {
+            width: calc(100% - 10px); /* Adjust width for padding */
+            padding: 8px 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9em;
+            background-color: #fff;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 40px;
+        }
+
+        /* Checkbox-Gruppen */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 15px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group div {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        /* Spezielle Checkbox-Layouts für Mahlzeiten */
+        .meal-section .input-group {
+            margin-bottom: 5px; /* Reduce margin for dense layout */
+        }
+
+        .meal-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            gap: 5px;
+        }
+
+        .meal-item input[type="checkbox"] {
+            flex-shrink: 0;
+            margin-right: 5px;
+        }
+
+        .meal-item label {
+            flex-grow: 1;
+            font-weight: normal;
+        }
+
+        .meal-item input[type="text"] {
+            width: 80px; /* Small width for quantity */
+            flex-shrink: 0;
+            font-size: 0.85em;
+            padding: 4px;
+        }
+
+        /* Druckoptimierung */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: white;
+            }
+
+            .container {
+                width: 29.7cm;
+                height: 21cm;
+                margin: 0;
+                border: none;
+                box-shadow: none;
+                padding: 10mm; /* Add some margin for printing */
+                display: block; /* Revert to block for printing */
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 1em;
+            }
+
+            .section {
+                box-shadow: none;
+                border: 1px solid #eee; /* Light border for print clarity */
+                margin-bottom: 10px; /* Reduce margin */
+                padding: 10px;
+            }
+
+            .section-group {
+                flex-direction: row; /* Ensure sections stay side-by-side */
+                flex-wrap: nowrap; /* Prevent wrapping on print */
+            }
+
+            /* Hide buttons when printing */
+            .button-container {
+                display: none;
+            }
+        }
+
+        /* Buttons */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .button-container button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container button:hover {
+            background-color: #218838;
+        }
+
+        .button-container button.print {
+            background-color: #007bff;
+        }
+
+        .button-container button.print:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: auto; /* Push to the bottom */
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍽️ Neubewohner-Erhebungsbogen für die Küche</h1>
+        <h1>Pflegeheim "Haus Sonnenschein"</h1>
+
+        <div class="section-group">
+            <div class="section half-width">
+                <h2>👤 Bewohner Stammdaten</h2>
+                <div class="input-group">
+                    <label for="name">Name, Vorname:</label>
+                    <input type="text" id="name">
+                </div>
+                <div class="input-group">
+                    <label for="room">Zimmer-Nr.:</label>
+                    <input type="text" id="room">
+                </div>
+                <div class="input-group">
+                    <label for="birthdate">Geburtsdatum:</label>
+                    <input type="date" id="birthdate">
+                </div>
+                <div class="input-group">
+                    <label for="entrydate">Einzugsdatum:</label>
+                    <input type="date" id="entrydate">
+                </div>
+                <div class="input-group">
+                    <label for="contactPerson">Ansprechpartner/in (optional):</label>
+                    <input type="text" id="contactPerson">
+                </div>
+                <div class="input-group">
+                    <label for="medicalNotes">Wichtige med. Hinweise (z.B. Demenz, Mobilität):</label>
+                    <textarea id="medicalNotes" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>⚠️ Allergien & Unverträglichkeiten</h2>
+                <p>Bitte hier nur die **wichtigsten** Allergene/Unverträglichkeiten festhalten. Details sind im Allergen-Management-Tool hinterlegt.</p>
+                <div class="checkbox-group">
+                    <div><input type="checkbox" id="allergy_lactose"><label for="allergy_lactose">Laktose</label></div>
+                    <div><input type="checkbox" id="allergy_gluten"><label for="allergy_gluten">Gluten</label></div>
+                    <div><input type="checkbox" id="allergy_nuts"><label for="allergy_nuts">Nüsse</label></div>
+                    <div><input type="checkbox" id="allergy_eggs"><label for="allergy_eggs">Eier</label></div>
+                    <div><input type="checkbox" id="allergy_fish"><label for="allergy_fish">Fisch</label></div>
+                    <div><input type="checkbox" id="allergy_soy"><label for="allergy_soy">Soja</label></div>
+                    <div><input type="checkbox" id="allergy_shellfish"><label for="allergy_shellfish">Krebstiere/Weichtiere</label></div>
+                    <div><input type="checkbox" id="allergy_other"><label for="allergy_other">Andere (s. unten)</label></div>
+                </div>
+                <div class="input-group">
+                    <label for="otherAllergies">Spezifische Allergien/Unverträglichkeiten:</label>
+                    <textarea id="otherAllergies" rows="2" placeholder="z.B. Erdbeeren, bestimmte Gewürze, Anaphylaxie-Risiko bei X"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="allergySeverity">Schweregrad der Reaktion (bei bek. Allergie):</label>
+                    <select id="allergySeverity">
+                        <option value="">Bitte wählen</option>
+                        <option value="mild">Mild</option>
+                        <option value="moderate">Mäßig</option>
+                        <option value="severe">Schwer (Anaphylaxie-Risiko!)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🥗 Kostform & Besondere Bedürfnisse</h2>
+            <div class="input-group">
+                <label for="dietForm">Gewünschte Kostform:</label>
+                <select id="dietForm">
+                    <option value="">Bitte wählen</option>
+                    <option value="vollkost">Vollkost</option>
+                    <option value="leichte_vollkost">Leichte Vollkost</option>
+                    <option value="diabeteskost">Diabeteskost</option>
+                    <option value="pürierte_kost">Pürierte Kost</option>
+                    <option value="passierte_kost">Passierte Kost</option>
+                    <option value="weiche_kost">Weiche Kost</option>
+                    <option value="hochkalorisch">Hochkalorisch (Gewichtszunahme)</option>
+                    <option value="reduziert">Reduziert (Gewichtsreduktion)</option>
+                    <option value="vegetarisch">Vegetarisch</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="salzarm">Salzarm</option>
+                    <option value="sonstige">Sonstige (s. unten)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="otherDietForm">Falls "Sonstige" oder Zusatzinfo zur Kostform:</label>
+                <input type="text" id="otherDietForm" placeholder="z.B. Nierenkost, fettarm">
+            </div>
+
+            <h3>Konsistenzanpassung bei Schluckbeschwerden:</h3>
+            <div class="checkbox-group">
+                <div><input type="radio" id="consistency_normal" name="consistency" value="normal"><label for="consistency_normal">Normal</label></div>
+                <div><input type="radio" id="consistency_weich" name="consistency" value="weich"><label for="consistency_weich">Weich</label></div>
+                <div><input type="radio" id="consistency_breiig" name="consistency" value="breiig"><label for="consistency_breiig">Breiig</label></div>
+                <div><input type="radio" id="consistency_pueriert" name="consistency" value="pueriert"><label for="consistency_pueriert">Püriert</label></div>
+                <div><input type="radio" id="consistency_fluessig" name="consistency" value="fluessig"><label for="consistency_fluessig">Flüssig</label></div>
+                <div><input type="radio" id="consistency_dickfluessig" name="consistency" value="dickfluessig"><label for="consistency_dickfluessig">Dickflüssig</label></div>
+            </div>
+            <div class="input-group">
+                <label for="consistencyNotes">Hinweise zur Konsistenz / Schluckbeschwerden:</label>
+                <textarea id="consistencyNotes" rows="2" placeholder="z.B. nur mit Andickmittel, verschluckt sich bei festen Stücken"></textarea>
+            </div>
+
+            <h3>Selbstständigkeit beim Essen / Hilfsmittel:</h3>
+            <div class="checkbox-group">
+                <div><input type="radio" id="eating_self" name="eating_autonomy" value="selbststaendig"><label for="eating_self">Isst selbstständig</label></div>
+                <div><input type="radio" id="eating_support" name="eating_autonomy" value="unterstuetzung"><label for="eating_support">Benötigt Unterstützung</label></div>
+                <div><input type="radio" id="eating_fed" name="eating_autonomy" value="gefüttert"><label for="eating_fed">Wird gefüttert</label></div>
+            </div>
+            <div class="input-group">
+                <label for="eatingAids">Benötigte Hilfsmittel (z.B. Spezialbesteck, Tellerrand, Schnabeltasse):</label>
+                <input type="text" id="eatingAids">
+            </div>
+            <div class="input-group">
+                <label for="eatingBehavior">Besonderes Essverhalten / Essgeschwindigkeit:</label>
+                <textarea id="eatingBehavior" rows="2" placeholder="z.B. sehr langsam, schlingt, isst nur kleine Portionen, spielt mit dem Essen"></textarea>
+            </div>
+        </div>
+
+        <div class="section-group">
+            <div class="section meal-section">
+                <h2>🍴 Mahlzeiten-Vorlieben & Abneigungen</h2>
+
+                <h3>Frühstück:</h3>
+                <h4>Mag gerne: (Menge / Notiz)</h4>
+                <div class="input-group">
+                    <label>Brot/Brötchen:</label>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_schwarzbrot"><label for="bf_schwarzbrot">Schwarzbrot</label>
+                        <input type="text" id="bf_schwarzbrot_qty" placeholder="Menge">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_mischbrot"><label for="bf_mischbrot">Mischbrot</label>
+                        <input type="text" id="bf_mischbrot_qty" placeholder="Menge">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_weissbrot"><label for="bf_weissbrot">Weißbrot/Brötchen</label>
+                        <input type="text" id="bf_weissbrot_qty" placeholder="Menge">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Belag:</label>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_kaese"><label for="bf_kaese">Käse</label>
+                        <input type="text" id="bf_kaese_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_wurst"><label for="bf_wurst">Wurst/Aufschnitt</label>
+                        <input type="text" id="bf_wurst_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_frischkaese"><label for="bf_frischkaese">Frischkäse</label>
+                        <input type="text" id="bf_frischkaese_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_koerniger_frischkaese"><label for="bf_koerniger_frischkaese">Körniger Frischkäse</label>
+                        <input type="text" id="bf_koerniger_frischkaese_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_marmelade"><label for="bf_marmelade">Marmelade/Honig</label>
+                        <input type="text" id="bf_marmelade_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_ei"><label for="bf_ei">Ei</label>
+                        <input type="text" id="bf_ei_qty" placeholder="Menge/Art">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Sonstiges zum Frühstück:</label>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_joghurt"><label for="bf_joghurt">Joghurt/Quark</label>
+                        <input type="text" id="bf_joghurt_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_muesli"><label for="bf_muesli">Müsli/Haferflocken</label>
+                        <input type="text" id="bf_muesli_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_suess_geb"><label for="bf_suess_geb">Süßes Gebäck</label>
+                        <input type="text" id="bf_suess_geb_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="bf_obst"><label for="bf_obst">Obst/Obstsalat</label>
+                        <input type="text" id="bf_obst_qty" placeholder="Menge/Art">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="breakfastDislikes">Mag nicht:</label>
+                    <input type="text" id="breakfastDislikes" placeholder="z.B. Schwarzbrot, Haferflocken">
+                </div>
+
+                <h3>Mittagessen:</h3>
+                <div class="input-group">
+                    <label for="lunchLikes">Mag gerne:</label>
+                    <input type="text" id="lunchLikes" placeholder="z.B. Eintöpfe, Nudeln, Geflügel, süße Hauptspeisen">
+                </div>
+                <div class="input-group">
+                    <label for="lunchDislikes">Mag nicht:</label>
+                    <input type="text" id="lunchDislikes" placeholder="z.B. Fisch, Kohl, scharfe Gewürze">
+                </div>
+            </div>
+
+            <div class="section meal-section">
+                <h2>🥛 Getränke & Sonstiges</h2>
+
+                <h3>Abendessen:</h3>
+                <h4>Mag gerne: (Menge / Notiz)</h4>
+                <div class="input-group">
+                    <label>Brot/Brötchen:</label>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_schwarzbrot"><label for="dn_schwarzbrot">Schwarzbrot</label>
+                        <input type="text" id="dn_schwarzbrot_qty" placeholder="Menge">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_mischbrot"><label for="dn_mischbrot">Mischbrot</label>
+                        <input type="text" id="dn_mischbrot_qty" placeholder="Menge">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_weissbrot"><label for="dn_weissbrot">Weißbrot/Brötchen</label>
+                        <input type="text" id="dn_weissbrot_qty" placeholder="Menge">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Belag:</label>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_kaese"><label for="dn_kaese">Käse</label>
+                        <input type="text" id="dn_kaese_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_wurst"><label for="dn_wurst">Wurst/Aufschnitt</label>
+                        <input type="text" id="dn_wurst_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_fleischsalat"><label for="dn_fleischsalat">Fleischsalat</label>
+                        <input type="text" id="dn_fleischsalat_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_heringssalat"><label for="dn_heringssalat">Roter Heringssalat</label>
+                        <input type="text" id="dn_heringssalat_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_eiersalat"><label for="dn_eiersalat">Eiersalat</label>
+                        <input type="text" id="dn_eiersalat_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_schmalz"><label for="dn_schmalz">Schmalz</label>
+                        <input type="text" id="dn_schmalz_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_leberwurst"><label for="dn_leberwurst">Leberwurst</label>
+                        <input type="text" id="dn_leberwurst_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_teewurst"><label for="dn_teewurst">Teewurst</label>
+                        <input type="text" id="dn_teewurst_qty" placeholder="Menge/Art">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Sonstiges zum Abendessen:</label>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_salat"><label for="dn_salat">Salat</label>
+                        <input type="text" id="dn_salat_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_suppebrei"><label for="dn_suppebrei">Warme Suppe/Brei</label>
+                        <input type="text" id="dn_suppebrei_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_bruehe"><label for="dn_bruehe">Brühe</label>
+                        <input type="text" id="dn_bruehe_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_quark"><label for="dn_quark">Quark/Joghurt</label>
+                        <input type="text" id="dn_quark_qty" placeholder="Menge/Art">
+                    </div>
+                </div>
+                 <div class="input-group">
+                    <label>Extras (zum Abendessen):</label>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_tomate"><label for="dn_tomate">Tomate</label>
+                        <input type="text" id="dn_tomate_qty" placeholder="Menge">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="dn_gewuerzgurken"><label for="dn_gewuerzgurken">Gewürzgurken</label>
+                        <input type="text" id="dn_gewuerzgurken_qty" placeholder="Menge">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="dinnerDislikes">Mag nicht:</label>
+                    <input type="text" id="dinnerDislikes" placeholder="z.B. Rohkost, kalte Speisen">
+                </div>
+
+                <h3>Zwischenmahlzeiten / Spätmahlzeit:</h3>
+                <div class="input-group">
+                    <label for="snackLikes">Mag gerne (Zeitpunkt, Art):</label>
+                    <input type="text" id="snackLikes" placeholder="z.B. nachmittags Kuchen, abends Joghurt">
+                </div>
+                <div class="input-group">
+                    <label for="snackDislikes">Mag nicht:</label>
+                    <input type="text" id="snackDislikes" placeholder="z.B. keine Süßigkeiten">
+                </div>
+
+                <h3>Getränke:</h3>
+                <h4>Bevorzugte Getränke: (Menge / Notiz)</h4>
+                <div class="input-group">
+                    <div class="meal-item">
+                        <input type="checkbox" id="drink_kaffee_mit_milch"><label for="drink_kaffee_mit_milch">Kaffee mit Milch</label>
+                        <input type="text" id="drink_kaffee_mit_milch_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="drink_kaffee_ohne_milch"><label for="drink_kaffee_ohne_milch">Kaffee ohne Milch</label>
+                        <input type="text" id="drink_kaffee_ohne_milch_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="drink_tee"><label for="drink_tee">Tee</label>
+                        <input type="text" id="drink_tee_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="drink_kakao"><label for="drink_kakao">Kakao</label>
+                        <input type="text" id="drink_kakao_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="drink_milch"><label for="drink_milch">Milch</label>
+                        <input type="text" id="drink_milch_qty" placeholder="Menge/Art">
+                    </div>
+                     <div class="meal-item">
+                        <input type="checkbox" id="drink_buttermilch"><label for="drink_buttermilch">Buttermilch</label>
+                        <input type="text" id="drink_buttermilch_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="drink_wasser"><label for="drink_wasser">Wasser</label>
+                        <input type="text" id="drink_wasser_qty" placeholder="Menge/Art">
+                    </div>
+                    <div class="meal-item">
+                        <input type="checkbox" id="drink_saft"><label for="drink_saft">Saft</label>
+                        <input type="text" id="drink_saft_qty" placeholder="Menge/Art">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="drinkDislikes">Abgelehnte Getränke:</label>
+                    <input type="text" id="drinkDislikes" placeholder="z.B. Sprudelwasser, schwarzer Tee">
+                </div>
+
+                <h3>Religiöse / Kulturelle / Sonstige Besonderheiten:</h3>
+                <div class="input-group">
+                    <textarea id="religiousCulturalNotes" rows="2" placeholder="z.B. kein Schweinefleisch, bestimmte Essenszeiten, Rituale vor dem Essen"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="print" onclick="window.print()">🖨️ Dokument drucken</button>
+            <button onclick="clearForm()">🔄 Formular leeren</button>
+        </div>
+
+        <div class="footer">
+            <p>Stand: <span id="currentDate"></span> | Unterschrift Personal: _________________________ | Unterschrift Bewohner/Angehörige: _________________________</p>
+        </div>
+    </div>
+
+    <script>
+        // Set current date in the footer
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+            document.getElementById('currentDate').textContent = `${day}.${month}.${year}`;
+        });
+
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('room').value = '';
+            document.getElementById('birthdate').value = '';
+            document.getElementById('entrydate').value = '';
+            document.getElementById('contactPerson').value = '';
+            document.getElementById('medicalNotes').value = '';
+
+            document.getElementById('otherAllergies').value = '';
+            document.getElementById('allergySeverity').value = '';
+            document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            document.getElementById('dietForm').value = '';
+            document.getElementById('otherDietForm').value = '';
+            document.querySelectorAll('input[name="consistency"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('consistencyNotes').value = '';
+            document.querySelectorAll('input[name="eating_autonomy"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('eatingAids').value = '';
+            document.getElementById('eatingBehavior').value = '';
+
+            // Clear breakfast preferences
+            document.getElementById('breakfastDislikes').value = '';
+            document.getElementById('bf_schwarzbrot').checked = false;
+            document.getElementById('bf_schwarzbrot_qty').value = '';
+            document.getElementById('bf_mischbrot').checked = false;
+            document.getElementById('bf_mischbrot_qty').value = '';
+            document.getElementById('bf_weissbrot').checked = false;
+            document.getElementById('bf_weissbrot_qty').value = '';
+            document.getElementById('bf_kaese').checked = false;
+            document.getElementById('bf_kaese_qty').value = '';
+            document.getElementById('bf_wurst').checked = false;
+            document.getElementById('bf_wurst_qty').value = '';
+            document.getElementById('bf_frischkaese').checked = false;
+            document.getElementById('bf_frischkaese_qty').value = '';
+            document.getElementById('bf_koerniger_frischkaese').checked = false;
+            document.getElementById('bf_koerniger_frischkaese_qty').value = '';
+            document.getElementById('bf_marmelade').checked = false;
+            document.getElementById('bf_marmelade_qty').value = '';
+            document.getElementById('bf_ei').checked = false;
+            document.getElementById('bf_ei_qty').value = '';
+            document.getElementById('bf_joghurt').checked = false;
+            document.getElementById('bf_joghurt_qty').value = '';
+            document.getElementById('bf_muesli').checked = false;
+            document.getElementById('bf_muesli_qty').value = '';
+            document.getElementById('bf_suess_geb').checked = false;
+            document.getElementById('bf_suess_geb_qty').value = '';
+            document.getElementById('bf_obst').checked = false;
+            document.getElementById('bf_obst_qty').value = '';
+
+
+            // Clear lunch preferences (these are still text areas)
+            document.getElementById('lunchLikes').value = '';
+            document.getElementById('lunchDislikes').value = '';
+
+            // Clear dinner preferences
+            document.getElementById('dinnerDislikes').value = '';
+            document.getElementById('dn_schwarzbrot').checked = false;
+            document.getElementById('dn_schwarzbrot_qty').value = '';
+            document.getElementById('dn_mischbrot').checked = false;
+            document.getElementById('dn_mischbrot_qty').value = '';
+            document.getElementById('dn_weissbrot').checked = false;
+            document.getElementById('dn_weissbrot_qty').value = '';
+            document.getElementById('dn_kaese').checked = false;
+            document.getElementById('dn_kaese_qty').value = '';
+            document.getElementById('dn_wurst').checked = false;
+            document.getElementById('dn_wurst_qty').value = '';
+            document.getElementById('dn_fleischsalat').checked = false;
+            document.getElementById('dn_fleischsalat_qty').value = '';
+            document.getElementById('dn_heringssalat').checked = false;
+            document.getElementById('dn_heringssalat_qty').value = '';
+            document.getElementById('dn_eiersalat').checked = false;
+            document.getElementById('dn_eiersalat_qty').value = '';
+            document.getElementById('dn_schmalz').checked = false;
+            document.getElementById('dn_schmalz_qty').value = '';
+            document.getElementById('dn_leberwurst').checked = false;
+            document.getElementById('dn_leberwurst_qty').value = '';
+            document.getElementById('dn_teewurst').checked = false;
+            document.getElementById('dn_teewurst_qty').value = '';
+            document.getElementById('dn_salat').checked = false;
+            document.getElementById('dn_salat_qty').value = '';
+            document.getElementById('dn_suppebrei').checked = false;
+            document.getElementById('dn_suppebrei_qty').value = '';
+            document.getElementById('dn_bruehe').checked = false;
+            document.getElementById('dn_bruehe_qty').value = '';
+            document.getElementById('dn_quark').checked = false;
+            document.getElementById('dn_quark_qty').value = '';
+            document.getElementById('dn_tomate').checked = false;
+            document.getElementById('dn_tomate_qty').value = '';
+            document.getElementById('dn_gewuerzgurken').checked = false;
+            document.getElementById('dn_gewuerzgurken_qty').value = '';
+
+            document.getElementById('snackLikes').value = '';
+            document.getElementById('snackDislikes').value = '';
+
+            // Clear drink preferences
+            document.getElementById('drinkDislikes').value = '';
+            document.getElementById('drink_kaffee_mit_milch').checked = false;
+            document.getElementById('drink_kaffee_mit_milch_qty').value = '';
+            document.getElementById('drink_kaffee_ohne_milch').checked = false;
+            document.getElementById('drink_kaffee_ohne_milch_qty').value = '';
+            document.getElementById('drink_tee').checked = false;
+            document.getElementById('drink_tee_qty').value = '';
+            document.getElementById('drink_kakao').checked = false;
+            document.getElementById('drink_kakao_qty').value = '';
+            document.getElementById('drink_milch').checked = false;
+            document.getElementById('drink_milch_qty').value = '';
+            document.getElementById('drink_buttermilch').checked = false;
+            document.getElementById('drink_buttermilch_qty').value = '';
+            document.getElementById('drink_wasser').checked = false;
+            document.getElementById('drink_wasser_qty').value = '';
+            document.getElementById('drink_saft').checked = false;
+            document.getElementById('drink_saft_qty').value = '';
+            
+            document.getElementById('religiousCulturalNotes').value = '';
+        }
+    </script>
+</body>
+</html>
